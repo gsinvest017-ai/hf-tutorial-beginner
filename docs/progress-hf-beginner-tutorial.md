@@ -99,6 +99,22 @@
 - 安裝指南：Step 5 拆兩種方法（Jupyter / 終端機）
 - requirements：加入 `notebook>=7.0`
 
+---
+
+## 第三輪：發佈到 GitHub（/safe-yolo 2026-05-26）
+
+### P1 — 預檢 + 建立 remote repo
+- 帳號：`gsinvest017-ai`（gh auth 既有）
+- 預檢：working tree clean、無 .env / secret-named 檔案、tracked files 只有 markdown / py / ipynb
+- 公開度：**public**（教學專案，內容適合分享；若要改私有：`gh repo edit --visibility private`）
+- 指令：`gh repo create hf-tutorial-beginner --public --source=. --description "..."`
+- Remote URL：https://github.com/gsinvest017-ai/hf-tutorial-beginner
+
+### P2 — Push 全部 commits
+- `git push -u origin main`
+- 已 push commits：`0c9aa5e..ca5f091`（M1–M5 + N1–N4，共 9 個 commits）
+- branch `main` 已 tracking `origin/main`
+
 ## Fallback 指引
 
 若中途被接手或需要 rollback：
@@ -107,3 +123,6 @@
 - 進度檔本身會記錄每個 milestone 完成的 commit hash
 - 所有 demo 互相獨立，移除任一個 demo 不會影響其他 demo
 - 想保留 .py 版、移除 .ipynb 版：`git rm demos/*.ipynb` 然後 revert README/安裝指南/requirements.txt 的對應段落（commit N4 之後）
+- 想撤回 GitHub 發佈：
+  - 改私有：`gh repo edit gsinvest017-ai/hf-tutorial-beginner --visibility private --accept-visibility-change-consequences`
+  - 完全刪除（不可逆）：`gh repo delete gsinvest017-ai/hf-tutorial-beginner --yes`
