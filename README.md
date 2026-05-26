@@ -49,11 +49,22 @@
 依照順序看：
 
 1. **先讀** [`docs/安裝指南.md`](docs/安裝指南.md) ─ 教你裝 Python 跟 HuggingFace（一次就好）
-2. **再跑** [`demos/01_sentiment.py`](demos/01_sentiment.py) ─ 你的第一個 AI（5 行）
-3. **接著** [`demos/02_translate.py`](demos/02_translate.py) ─ AI 翻譯機
-4. **最後** [`demos/03_image.py`](demos/03_image.py) ─ AI 看圖認物
+2. **再跑** Demo 1：[`demos/01_sentiment.py`](demos/01_sentiment.py) 或 [`demos/01_sentiment.ipynb`](demos/01_sentiment.ipynb) ─ 你的第一個 AI（5 行）
+3. **接著** Demo 2：[`demos/02_translate.py`](demos/02_translate.py) 或 [`demos/02_translate.ipynb`](demos/02_translate.ipynb) ─ AI 翻譯機
+4. **最後** Demo 3：[`demos/03_image.py`](demos/03_image.py) 或 [`demos/03_image.ipynb`](demos/03_image.ipynb) ─ AI 看圖認物
 5. **卡關時** 查 [`docs/常見錯誤.md`](docs/常見錯誤.md)
 6. **想繼續學** 看 [`docs/下一步.md`](docs/下一步.md)
+
+### 兩種版本怎麼選？
+
+每個 demo 都有 **`.py`** 跟 **`.ipynb`** 兩個版本，挑一個喜歡的就好：
+
+| 版本 | 適合誰 | 怎麼跑 |
+|---|---|---|
+| **`.py`**（純 Python 檔） | 想看完整程式、從終端機一鍵跑完 | `python demos/01_sentiment.py` |
+| **`.ipynb`**（Jupyter Notebook） | 想**一格一格慢慢跑**、邊看輸出邊學 | `jupyter notebook`（會打開瀏覽器） |
+
+**完全沒寫過程式強烈推薦 `.ipynb` 版**：每一步都有 markdown 說明、可以即時改參數重跑、Demo 3 還能直接在 notebook 內看到要辨識的圖片。
 
 ## 一句話總結
 

@@ -63,6 +63,42 @@
 - 下一步：學習地圖（高中生路線、大學生路線）、中期關鍵字（fine-tune、LoRA、RAG、Embedding）、心態建議
 - 最後一個 demo 跑完到知道「之後該學什麼」之間，幫初學者銜接完整
 
+---
+
+## 第二輪：Notebook 版本（/safe-yolo 2026-05-26）
+
+### 動機
+原本 3 個 demo 是 `.py`，從終端機一次跑完。對「完全沒寫過程式」的目標受眾來說：
+- 看不到中間每一步的狀態
+- 想改參數要在編輯器跟終端機之間切換
+- Demo 3 看不到要辨識的圖片本身
+
+→ 新增對應的 `.ipynb` 版，每步驟一格、有 markdown 介紹、可即時改、可顯示圖片。
+
+### N1 — Demo 1 Notebook（情感分析）
+- Commit：`52afef3`
+- 產出：`demos/01_sentiment.ipynb`
+- 設計：6 個 markdown 介紹 + 6 個 code cell，含「動手玩玩看」可編輯區
+- 回顧 cell：用 markdown 收尾講 3 個關鍵步驟 + DistilBERT 抽象層概念
+
+### N2 — Demo 2 Notebook（翻譯）
+- Commit：`36eab57`
+- 產出：`demos/02_translate.ipynb`
+- 設計：除了英翻中之外，新增中翻英 bonus cell 讓學生體驗反方向
+- 故意保留 Programming→規劃 翻錯的 markdown 警示
+
+### N3 — Demo 3 Notebook（圖片辨識）
+- Commit：`435916e`
+- 產出：`demos/03_image.ipynb`
+- 設計：用 `IPython.display.Image` 直接在 notebook 內顯示要辨識的圖片（.py 版做不到）
+- 三段動手玩玩看：picsum 隨機圖、本地圖片路徑、批次三張一起跑
+
+### N4 — 文件更新串接
+- 產出：`README.md`、`docs/安裝指南.md`、`requirements.txt`
+- README：表格化「.py vs .ipynb 怎麼選」，建議完全新手用 .ipynb
+- 安裝指南：Step 5 拆兩種方法（Jupyter / 終端機）
+- requirements：加入 `notebook>=7.0`
+
 ## Fallback 指引
 
 若中途被接手或需要 rollback：
@@ -70,3 +106,4 @@
 - `git reset --hard <M{n-1} commit>` 退回上一個 milestone
 - 進度檔本身會記錄每個 milestone 完成的 commit hash
 - 所有 demo 互相獨立，移除任一個 demo 不會影響其他 demo
+- 想保留 .py 版、移除 .ipynb 版：`git rm demos/*.ipynb` 然後 revert README/安裝指南/requirements.txt 的對應段落（commit N4 之後）
