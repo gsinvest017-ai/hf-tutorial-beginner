@@ -44,9 +44,16 @@
 - 對初學者的取捨：說明檔特別解釋「為什麼這麼短」（抽象層概念）以及背後 5 步驟，但不要求理解
 
 ### M3 — Demo 2 英翻中
+- Commit：`d764bc7`
 - 產出：`demos/02_translate.py`、`demos/02_說明.md`
 - 設計：引入「指定模型」概念（`model="Helsinki-NLP/opus-mt-en-zh"`），解釋為何翻譯不能讓 HuggingFace 自選
 - 教學重點：模型名格式 `發佈者/模型名` 類比 GitHub repo；故意保留一個翻譯錯誤的例子（Programming→規劃）來教「模型有缺點」這件事
+
+### M4 — Demo 3 圖片辨識
+- 產出：`demos/03_image.py`、`demos/03_說明.md`
+- 設計：跨模態（文字→圖片）但介面幾乎不變，凸顯 `pipeline()` 抽象化的價值
+- 範例圖：用 COCO dataset 的公開圖片網址（不需要在 repo 內放圖檔，避免 repo 肥大）
+- 教學重點：top_k 信心度長條圖、closed-set vs open-vocabulary 概念（埋點為「下一步學 CLIP」鋪路）
 
 ## Fallback 指引
 
