@@ -50,10 +50,18 @@
 - 教學重點：模型名格式 `發佈者/模型名` 類比 GitHub repo；故意保留一個翻譯錯誤的例子（Programming→規劃）來教「模型有缺點」這件事
 
 ### M4 — Demo 3 圖片辨識
+- Commit：`ad03575`
 - 產出：`demos/03_image.py`、`demos/03_說明.md`
 - 設計：跨模態（文字→圖片）但介面幾乎不變，凸顯 `pipeline()` 抽象化的價值
 - 範例圖：用 COCO dataset 的公開圖片網址（不需要在 repo 內放圖檔，避免 repo 肥大）
 - 教學重點：top_k 信心度長條圖、closed-set vs open-vocabulary 概念（埋點為「下一步學 CLIP」鋪路）
+
+### M5 — 安裝指南 / 常見錯誤 / 下一步
+- 產出：`docs/安裝指南.md`、`docs/常見錯誤.md`、`docs/下一步.md`
+- 安裝指南：Win/Mac 兩平台、虛擬環境步驟、完整 troubleshooting
+- 常見錯誤：8 個高頻錯誤的 root cause + 解法（包含中國/firewall 環境的鏡像設定）
+- 下一步：學習地圖（高中生路線、大學生路線）、中期關鍵字（fine-tune、LoRA、RAG、Embedding）、心態建議
+- 最後一個 demo 跑完到知道「之後該學什麼」之間，幫初學者銜接完整
 
 ## Fallback 指引
 
