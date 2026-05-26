@@ -38,9 +38,15 @@
 - 決策：用 `pipeline()` 高階 API 不碰底層；全 demo 互相獨立可單獨跑
 
 ### M2 — Demo 1 情感分析
+- Commit：`0195cd7`
 - 產出：`demos/01_sentiment.py`、`demos/01_說明.md`
 - 設計：5 行核心程式碼 + 完整中文逐行註解；3 句範例輸入示範 POSITIVE/NEGATIVE/邊界 case
 - 對初學者的取捨：說明檔特別解釋「為什麼這麼短」（抽象層概念）以及背後 5 步驟，但不要求理解
+
+### M3 — Demo 2 英翻中
+- 產出：`demos/02_translate.py`、`demos/02_說明.md`
+- 設計：引入「指定模型」概念（`model="Helsinki-NLP/opus-mt-en-zh"`），解釋為何翻譯不能讓 HuggingFace 自選
+- 教學重點：模型名格式 `發佈者/模型名` 類比 GitHub repo；故意保留一個翻譯錯誤的例子（Programming→規劃）來教「模型有缺點」這件事
 
 ## Fallback 指引
 
