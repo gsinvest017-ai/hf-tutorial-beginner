@@ -32,7 +32,15 @@
 
 ## 進度日誌
 
-（每完成一個 milestone 在此追加 `## Mn — <title>` 段落）
+### M1 — 專案骨架 + README + 進度檔
+- Commit：`0c9aa5e`
+- 產出：`README.md`、`requirements.txt`、`.gitignore`、`docs/progress-*.md`
+- 決策：用 `pipeline()` 高階 API 不碰底層；全 demo 互相獨立可單獨跑
+
+### M2 — Demo 1 情感分析
+- 產出：`demos/01_sentiment.py`、`demos/01_說明.md`
+- 設計：5 行核心程式碼 + 完整中文逐行註解；3 句範例輸入示範 POSITIVE/NEGATIVE/邊界 case
+- 對初學者的取捨：說明檔特別解釋「為什麼這麼短」（抽象層概念）以及背後 5 步驟，但不要求理解
 
 ## Fallback 指引
 
