@@ -1,4 +1,8 @@
-transformers>=4.40
+# 為什麼 transformers 要限制在 5 以下？
+# transformers 5.x 移除了 "translation" / "summarization" / "text2text-generation"
+# 這幾個 pipeline 任務，Demo 2（英翻中）在 5.x 會直接報 KeyError 跑不起來。
+# 這個教學固定用 4.x，確保三個 demo 都能跑。
+transformers>=4.40,<5
 torch>=2.0
 pillow>=10.0
 sentencepiece>=0.2
