@@ -115,6 +115,60 @@
 - 已 push commits：`0c9aa5e..ca5f091`（M1–M5 + N1–N4，共 9 個 commits）
 - branch `main` 已 tracking `origin/main`
 
+---
+
+## 第四輪：相容性修復 + CI（2026-08-10）
+
+### 動機
+
+實機重跑三個 demo（Windows 11 / Python 3.14.5 / 全新 venv），發現 **Demo 2 已經完全跑不起來**。
+`requirements.txt` 只寫 `transformers>=4.40`，而 pip 現在會解析到 **transformers 5.14.1**，
+v5 把 `translation` / `summarization` / `text2text-generation` 三個 pipeline 任務整組移除：
+
+```
+KeyError: "Unknown task translation, available tasks are [...]"
+```
+
+`.py` 與 `.ipynb` 版都掛掉。對「看到英文錯誤訊息會放棄」的目標讀者是致命傷。
+
+### 測試矩陣
+
+| 項目 | transformers 5.14.1 | transformers 4.57.6 |
+|---|---|---|
+| Demo 1 `.py` / `.ipynb` | ✅ / ✅ | ✅ |
+| Demo 2 `.py` / `.ipynb` | ❌ / ❌ | ✅ |
+| Demo 3 `.py` / `.ipynb` | ✅ / ✅ | ✅ |
+
+### F1 — 鎖定 transformers 版本
+
+- `requirements.txt`：`transformers>=4.40` → `transformers>=4.40,<5`，並加註原因
+- 取捨：另一個選項是改寫 Demo 2 用 `AutoTokenizer` + `AutoModelForSeq2SeqLM.generate()` 以支援 v5，
+  但程式碼會膨脹到 20 行以上、必須碰 tokenizer / model class，
+  直接違背本專案「≤10 行、只用 `pipeline()`」的教學設計目標 → **不採用**
+
+### F2 — 文件補強
+
+- `docs/常見錯誤.md`：新增錯誤 9（`Unknown task translation`）與錯誤 10（torchvision 警告），
+  錯誤 9 順帶帶出「為什麼要鎖版本」這一課
+- `docs/安裝指南.md`：Step 2 補上實際 clone 網址（原本是 `<這個專案的網址>` 佔位符）；
+  Step 4 加上「請用 requirements.txt 裝」的警告框
+- `demos/02_說明.md` + `02_translate.ipynb`：修正「預期輸出」——
+  原本寫的是繁體（哈囉／臺灣／規劃），**實際輸出是簡體**（哈罗／台湾／方案拟订）。
+  新增一段說明「為什麼是簡體」，把模型限制轉成教學點（模型忠實反映訓練資料）
+
+### F3 — Notebook 正規化
+
+- 三個 `.ipynb` 的 cell 都缺 `id` 欄位，nbformat 會警告且未來會變 hard error
+- 補上固定規則的 id（`01-cell-00` 這種格式，比隨機 uuid 好 review），`nbformat_minor` 提到 5
+
+### F4 — 加上 CI
+
+- 新增 `.github/workflows/ci.yml`，兩層設計：
+  - `quick`：每次 push / PR 跑，只做 `py_compile` + notebook 格式驗證 + `pip install --dry-run`，
+    幾秒結束、不下載模型
+  - `demos`：每週一排程（或手動觸發）真的把三個 demo 執行到底，有 HF 模型快取
+- 動機很直接：這次的 transformers v5 破壞性變更，有排程測試的話幾個月前就會被抓到
+
 ## Fallback 指引
 
 若中途被接手或需要 rollback：

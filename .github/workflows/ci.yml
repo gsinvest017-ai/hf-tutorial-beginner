@@ -1,0 +1,78 @@
+name: CI
+
+# 這個教學專案沒有傳統的單元測試，「測試」就是「三個 demo 跑得起來嗎」。
+# 所以拆成兩層：
+#   1. quick  —— 每次 push / PR 都跑，只做語法與格式檢查，幾秒內結束，不下載模型
+#   2. demos  —— 每週排程跑一次，真的把三個 demo 執行到底
+#      （上游 transformers 改版拿掉 pipeline 任務這種事，就是靠這個提早發現）
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  schedule:
+    # 每週一 03:00 UTC（台灣時間週一 11:00）
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+jobs:
+  quick:
+    name: 語法與格式檢查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 檢查 demo 的 Python 語法
+        run: python -m py_compile demos/*.py
+
+      - name: 檢查 notebook 格式
+        run: |
+          pip install --quiet nbformat
+          python - <<'PY'
+          import glob
+          import nbformat
+
+          for path in sorted(glob.glob("demos/*.ipynb")):
+              nb = nbformat.read(path, as_version=4)
+              nbformat.validate(nb)
+              missing = [i for i, c in enumerate(nb.cells) if not c.get("id")]
+              assert not missing, f"{path}: 這些 cell 缺 id：{missing}"
+              print(f"{path}: OK（{len(nb.cells)} cells）")
+          PY
+
+      - name: 檢查 requirements.txt 裝得起來
+        run: pip install --dry-run --quiet -r requirements.txt
+
+  demos:
+    name: 實際執行三個 demo
+    # 只在排程與手動觸發時跑 —— 會下載約 900 MB 的模型，不適合每次 push 都做
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 快取 HuggingFace 模型
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-models-${{ hashFiles('demos/*.py') }}
+
+      - name: 安裝相依套件
+        run: pip install -r requirements.txt
+
+      - name: Demo 1 — 情感分析
+        run: python demos/01_sentiment.py
+
+      - name: Demo 2 — 英翻中
+        run: python demos/02_translate.py
+
+      - name: Demo 3 — 圖片辨識
+        run: python demos/03_image.py
