@@ -1,3 +1,10 @@
+---
+type: progress
+updated: 2026-05-26
+repos: [hf-tutorial-beginner]
+owner: Kevin
+---
+
 # 進度檔：HuggingFace 給完全新手的最簡教學
 
 ## 目標
